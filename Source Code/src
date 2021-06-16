@@ -1,0 +1,469 @@
+#include<htc.h>
+
+__CONFIG(HS&WDTDIS&LVPDIS);
+#define _XTAL_FREQ 10000000
+void Key_pad_san();
+void delay(unsigned int);
+unsigned char flg,ke_press;
+#define RS RE0
+#define RW RE1
+#define EN RE2
+
+#define LCD PORTD
+void conv(unsigned int value);
+void lcdinit(void);
+void lcdcmd(unsigned char cmd);
+void lcdchar(unsigned char chr);
+void lcdstr(unsigned char *str);
+void conv_st(unsigned int value);
+void Ir_dir();
+unsigned char mot_driv,flg;
+void lcdinit()
+{
+ lcdcmd(0x38);
+__delay_ms(10);
+ lcdcmd(0x0E);
+__delay_ms(10);
+ lcdcmd(0x01);
+__delay_ms(10);
+ lcdcmd(0x06);
+__delay_ms(10);
+lcdcmd(0x0C);
+__delay_ms(10);
+ lcdcmd(0x80);
+__delay_ms(10);
+
+}
+
+
+
+void  lcdcmd(unsigned char cmd)
+{
+LCD=cmd;
+RS=0;
+RW=0;
+EN=1;
+__delay_ms(50);
+EN=0;
+
+}
+
+
+
+ void lcdchar(unsigned char chr)
+{
+
+LCD=chr;
+RS=1;
+RW=0;
+EN=1;
+__delay_ms(1);
+EN=0;
+
+}
+
+
+void lcdstr(unsigned char *str)
+{
+
+for(;*str;)
+{
+//__delay_ms(40);
+
+
+LCD=*str++;
+RS=1;
+RW=0;
+EN=1;
+__delay_ms(5);
+EN=0;
+}
+
+}
+
+void main()
+{
+	 	PORTB=0xff;    // port
+	 	TRISA=0xff;
+	 	TRISB=0xFf;    //portb out
+	 	TRISC=0x80;    //portc out
+		TRISD=0x00;    //portc out
+	 	TRISE=0x00;    //portc out
+		ADCON1=0x82;
+		ADCON0=0x81;
+		RBPU=0;
+	  	TRISC=0x80;
+		lcdinit();
+		lcdcmd(0x80);
+		lcdstr(" init,,, ");
+		delay(100);
+	 	lcdcmd(0xC0)
+		delay(100);
+				flg=0;
+				while(1)
+				{
+				
+				if(RB0==0&&RB1==1&&RB2==0&&RB3==0 && flg==0)				
+				{
+					mot_driv=1;
+						flg=1;
+				}
+				else if(RB0==0&&RB1==0&&RB2==1&&RB3==0 && flg==0)				
+				{
+					mot_driv=2;				
+						flg=1;
+				}
+				else if(RB0==0&&RB1==1&&RB2==1&&RB3==0 && flg==0)				
+				{
+					mot_driv=3;
+						flg=1;
+				}
+				else if(RB0==0&&RB1==0&&RB2==0&&RB3==1 && flg==0)				
+				{
+								mot_driv=4;
+								flg=1;
+				}
+				else 
+				{
+						RC0=0;
+						RC1=0;
+						RC2=0;
+						RC3=0;
+						mot_driv=0;
+						flg=0;
+				}
+
+		delay(100);
+	 	lcdcmd(0xC0)
+		delay(100);
+
+                                       switch(mot_driv)
+			        {
+				case 0:
+
+							Ir_dir();
+							break;
+			
+				case 1:
+lcdstr("v=");
+									RC0=1;
+									RC1=0;
+									RC2=1;
+									RC3=0;
+									mot_driv=0;
+							break;
+				case 2:
+lcdstr("i=");
+											RC0=1;
+											RC1=0;
+											RC2=0;
+											RC3=0;
+											__delay_ms(2000);
+											
+											RC0=0;
+											RC1=0;
+											RC2=0;
+											RC3=0;
+											__delay_ms(1000);
+											RC0=1;
+											RC1=0;
+											RC2=1;
+											RC3=0;
+											mot_driv=0;
+											break;
+
+				case 3:
+lcdstr("p=");
+										RC0=0;
+										RC1=0;
+										RC2=1;
+										RC3=0;
+						
+										__delay_ms(2000);
+										//__delay_ms(2000);
+										//__delay_ms(2000);
+						
+										RC0=0;
+										RC1=0;
+										RC2=0;
+										RC3=0;
+										__delay_ms(1000);
+										RC0=1;
+										RC1=0;
+										RC2=1;
+										RC3=0;
+
+
+										mot_driv=0;
+							break;
+				case 4:
+									RC0=0;
+									RC1=1;
+									RC2=0;
+									RC3=1;
+									mot_driv=0;
+
+							break;
+				}
+
+			}
+		}
+
+lcdstr(" i ");
+		delay(100);
+	 	lcdcmd(0xC0)
+		delay(100);
+
+
+		void delay(unsigned int t_d)
+		{
+		unsigned int i;
+		for(i=0;i<=t_d;i++)
+		{
+		__delay_ms(10);
+		}
+		}
+
+
+
+void Ir_dir()
+{
+
+
+				if(RB7==0 && RB6==1 && RB5==1)					//RB7----input1, RB6----input2, RC3 Intput 3
+				{
+					RC0=0;
+					RC1=1;
+					RC2=1;
+					RC3=0;
+					__delay_ms(1000);
+					__delay_ms(1000);
+					RC0=1;
+					RC1=0;
+					RC2=1;
+					RC3=0;
+						
+
+				}
+				else if(RB7==1 && RB6==0 && RB5==1 )
+				{
+					RC0=1;
+					RC1=0;
+					SRC2=0;
+					RC3=1;
+					__delay_ms(1000);
+					__delay_ms(1000);
+					RC0=1;
+					RC1=0;
+					RC2=1;
+					RC3=0;
+				}
+				else if(RB7==1 && RB6==1 && RB5==0)
+				{
+					RC0=0;
+					RC1=1;
+					RC2=1;
+					RC3=0;
+					__delay_ms(1000);
+					__delay_ms(1000);
+					RC0=1;
+					RC1=0;
+					RC2=1;
+					RC3=0;
+				}
+				
+
+
+
+}
+
+ lcdinit();
+	 RCIE=1;
+	//INTE=1;
+	PEIE=1;
+	GIE=1;
+	lcdcmd(0x80);
+	
+	lcdcmd(0xC0);
+	
+	delay(100);
+					put_str("AT\r\n");
+					__delay_ms(1);
+					put_str("AT+CMGF=1\r\n");
+					__delay_ms(1);
+					put_str("AT+CNMI=2,2,0,0,0\r\n");
+						__delay_ms(1);
+ 
+		flge1=0;
+	 	lcdcmd(0x01);
+		lcdcmd(0x80);
+		lcdstr("T:");
+		lcdcmd(0x85);
+		lcdstr("L:");
+		lcdcmd(0x8A);
+		lcdstr("H:");
+		T_count=50;
+		cmd_gsm=0;
+				while(1)
+				{
+				T_count++;
+				
+				ADCON0=0x81;
+				__delay_ms(10);
+				GODONE=1;
+				while(GODONE==1);
+				vlt=ADRESL;
+				vlt+=(ADRESH<<8);
+				vr=((vlt*0.00488)/0.01);;
+				lcdcmd(0x82);
+			   	conv(vr); 
+				__delay_ms(10);
+	
+				ADCON0=0x89;
+				__delay_ms(10);
+				GODONE=1;
+				while(GODONE==1);
+				vlt1=ADRESL;
+				vlt1+=(ADRESH<<8);
+				vr1=(vlt1);
+				lcdcmd(0x87);
+				conv(vr1); 
+				__delay_ms(10);
+				
+				
+				ADCON0=0x91;
+				__delay_ms(10);
+				GODONE=1;
+				while(GODONE==1);
+				vlt2=ADRESL;
+				vlt2+=(ADRESH<<8);
+				vr2=(vlt2);//*20*0.00488);//*100*0.00488);
+				lcdcmd(0x8c);
+				conv(vr2);
+				__delay_ms(10);
+				
+				ADCON0=0x99;
+				__delay_ms(10);
+				GODONE=1;
+				while(GODONE==1);
+				vlt3=ADRESL;
+				vlt3+=(ADRESH<<8);
+				vr3=(vlt3);//*20*0.00488);//*100*0.00488);
+		lcdcmd(0xC4);
+				conv(vr3);
+				
+		__delay_ms(10);
+				if(RB0==1)
+				{
+				lcdcmd(0xC0);
+				lcdstr("G:HIGH");
+				vr3=255;
+				}
+				else
+				{
+				lcdcmd(0xC0);
+				lcdstr("G:Low ");
+				vr3=0;
+				}		
+		
+
+				if(vr>45)
+				{
+			//	RC1=1;
+				flge1=1;
+				}
+				else if(vr<45)
+				{
+				//RC1=0;
+				flge1=0;
+				}
+
+				if(vr1>0&&vr1<20)
+				{
+				flge2=1;
+				}
+				else
+				{
+				flge2=0;
+				}
+				
+
+				if(T_count>=100)
+				{
+					put_str("AT+CMGS=\"sms\"\r\n");
+					
+					__delay_ms(1000);
+					
+					conv_st(vr);
+					__delay_ms(1000);
+					put_str("h:");
+					__delay_ms(1000);
+					conv_st(vr1);
+					__delay_ms(1000);
+					put_str("Le:");					__delay_ms(1000);
+					conv_st(vr2);					__delay_ms(1000);
+					__delay_ms(10);					__delay_ms(1000);
+					put_str("uploading");					__delay_ms(1000);
+					conv_st(vr3);					__delay_ms(1000);
+						__delay_ms(1000);
+					put_char(0x1a);					__delay_ms(1000);
+					__delay_ms(1000);
+					
+ 					T_count=0;
+					fun_mo++;
+					flg=1;
+				}
+	 				lcdcmd(0xCc);
+					lcdchar(var[1]);
+					lcdchar(var[2]);
+					lcdchar(var[3]);
+					lcdchar(var[4]);				
+				if(var[0]=='M'&&var[1]==' '&&var[2]=='O'&&var[3]=='N'&&gsm_rec==1)
+				{
+					lcdcmd(0xC0);
+					lcdstr("data");
+
+
+					lcdcmd(0xCc);
+					lcdstr("rec1");
+					cmd_gsm=1;
+					gsm_rec=0;
+					RC0=1;
+					T_count=0;
+					//M_count=50;
+					flg=0;
+				}
+	
+				else if(var[0]=='M'&&var[1]=='O'&&var[2]=='F'&&var[3]=='F'&&gsm_rec==1)
+				{
+
+					lcdcmd(0xC0);
+					lcdstr("         ");
+					RC0=0;
+					lcdcmd(0xCc);
+					lcdstr("rec2");
+					cmd_gsm=0;
+					gsm_rec=0;
+					RC0=0;
+					T_count=0;
+				}
+
+				if(flge1==1&&flge2==1&&cmd_gsm==0)
+				{
+				RC0=1;
+				}
+				else if(flge1==0&&flge2==1&&cmd_gsm==0)
+				{
+				RC0=1;
+				}
+				else if(flge1==1&&flge2==0&&cmd_gsm==0)
+				{
+				RC0=1;
+				}
+
+				else if(flge1==0&&flge2==0&&cmd_gsm==0)
+				{
+				RC0=0;
+				}
+
+} 
