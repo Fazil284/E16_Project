@@ -5,9 +5,14 @@ PROJECT TITLE: Robotic automated External Defibrillator ambulance for emergency 
 
 ABSTRACT:
 
-India is one of the most populous countries of the world. Due to over population, ignorance of health have been remained the major problems in India. For every one minute a death sw oops in because of heart attack.Ambulance service plays a vital role in saving lives. Its primary purpose is to give first aid to the sick or injured people in the emergency scene. To save a life is auspicious as well as precious.The idea here is to provide an intelligent smart health system using some sensors and microcontrollers; it will sense the body condition and send the data to the collaborated hospital’s database.
+India is one of the most populous countries of the world. Due to over population, ignorance of health have been remained the major problems in India. 
+For every one minute a death sw oops in because of heart attack.Ambulance service plays a vital role in saving lives. 
+Its primary purpose is to give first aid to the sick or injured people in the emergency scene. 
+To save a life is auspicious as well as precious.The idea here is to provide an intelligent smart health system using some sensors and microcontrollers; it will sense the body condition and send the data to the collaborated hospital’s database.
 
-This proposed idea gives us the development of a wireless based system for pulse rate, blood pressure and temperature monitoring to be used in ambulance. By this, the real time information can be passed to nearby hospitals to alert them about the critical conditions over IOT.This hardware device is fixed inside the ambulance to sense the patient’s health, collect the data in a wireless device called node MCU and immediately pass the database to the hospital’s server by the concept of IOT. This may intimate the hospital officials and may respond to the necessary actions to be taken to the person in emergency.
+This proposed idea gives us the development of a wireless based system for pulse rate, blood pressure and temperature monitoring to be used in ambulance. 
+By this, the real time information can be passed to nearby hospitals to alert them about the critical conditions over IOT.
+This hardware device is fixed inside the ambulance to sense the patient’s health, collect the data in a wireless device called node MCU and immediately pass the database to the hospital’s server by the concept of IOT. This may intimate the hospital officials and may respond to the necessary actions to be taken to the person in emergency.
 
 
 
