@@ -26,7 +26,7 @@ STEPS
 1.DATA COLLECTION FROM PATIENT’S BY USING SENSOR
 
  Sensor is a devices to measure temperature, pulse, heart beat readings through electrical signals.
-  Temperature is   the   most common  physical	measurement type in industrial applications.
+  Temperature is   the   most common  physical	measurement type in industrial applications
  Pulse sensors use the photoelectric method.
  The heart rate sensor measures your heart rate in Beats per Minute using an optical LED light source and an LED light sensor.
  The sensor will get the information of patient’s temperature, pulse, heartbeat and transmit it into microcontroller.
