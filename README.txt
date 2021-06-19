@@ -48,7 +48,7 @@ STEPS
 3.TRANSMIT DATA FROM IOT BOARD TO SERVER BY USE OF MQQT PROTOCOL
 
 	IOT board will transmit the data to server by use of MQQT protocol.
-	IoT prototyping kits and development boards combine microcontrollers and processors.
+	IoT prototyping kits and development boards combine microcontrollers and processors
 	MQ Telemetry Transport is an extremely simple and lightweight messaging protocol (subscribe and publish) designed for limited devices and networks with high latency, low bandwidth or unreliable networks. By using the data received from controller the doctor can suggest the treatment to the patient.
 	As it reduces the human effort then it definitely saves out time.
 
